@@ -9,7 +9,7 @@ public class User {
         this.password = password;
     }
 
-    public void authLogin(String userName, String password){
+    public boolean authLogin(String userName, String password){
         if(userName.isEmpty() || password.isEmpty()){
             System.out.println("Username or Password can't be empty");
         }
@@ -19,6 +19,8 @@ public class User {
         if(!this.password.equalsIgnoreCase(password)){
             System.out.println("Wrong password!");
         }
+        System.out.println("Login successful");
+        return true;
     }
 }
 
