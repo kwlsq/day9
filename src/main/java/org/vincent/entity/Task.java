@@ -20,4 +20,8 @@ public class Task {
     public boolean getIsDone(){
         return this.isDone;
     }
+
+    public void setIsDone(){
+        this.isDone = true;
+    }
 }

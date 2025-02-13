@@ -32,7 +32,7 @@ public class TaskManagement {
                     viewTasks();
                     break;
                 case 3:
-//                    markTaskAsDone();
+                    markTaskAsDone();
                     break;
                 case 4:
                     deleteTask();
@@ -57,24 +57,44 @@ public class TaskManagement {
         viewTasks();
     }
 
-    public void deleteTask() {
+    private UUID getTaskIdByIndex(String action) {
         viewTasks();
         if (tasksList.isEmpty()) {
-            return;
+            return null;
         }
 
-        System.out.print("Select Task to delete (number): ");
+        System.out.print("Select Task to " + action + " (number): ");
         int selectedIndex = scanner.nextInt();
         scanner.nextLine();
 
         List<UUID> taskKeys = new ArrayList<>(tasksList.keySet());
 
         if (selectedIndex > 0 && selectedIndex <= taskKeys.size()) {
-            UUID taskId = taskKeys.get(selectedIndex - 1);
-            tasksList.remove(taskId);
-            System.out.println("Task deleted successfully.");
+            return taskKeys.get(selectedIndex - 1);
         } else {
             System.out.println("Invalid task number. Try again.");
+            return null;
+        }
+    }
+
+    public void deleteTask() {
+        UUID taskId = getTaskIdByIndex("delete");
+
+        if (taskId != null) {
+            tasksList.remove(taskId);
+            System.out.println("Task deleted successfully.");
+        }
+    }
+
+    public void markTaskAsDone() {
+        UUID taskId = getTaskIdByIndex("mark as done");
+
+        if (taskId != null) {
+            if(!tasksList.get(taskId).getIsDone()){
+                tasksList.get(taskId).setIsDone();
+            } else {
+                System.out.println("Task you've selected is already done");
+            }
         }
     }
 
