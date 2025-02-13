@@ -8,6 +8,18 @@ public class User {
         this.userName = userName;
         this.password = password;
     }
+
+    public void authLogin(String userName, String password){
+        if(userName.isEmpty() || password.isEmpty()){
+            System.out.println("Username or Password can't be empty");
+        }
+        if(!this.userName.equalsIgnoreCase(userName)){
+            System.out.println("Wrong username!");
+        }
+        if(!this.password.equalsIgnoreCase(password)){
+            System.out.println("Wrong password!");
+        }
+    }
 }
 
 
