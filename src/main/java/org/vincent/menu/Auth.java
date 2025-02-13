@@ -29,7 +29,7 @@ public class Auth {
 
     }
 
-    public void loginPrompts(String userName, String password) {
+    private void loginPrompts(String userName, String password) {
         User user = usersList.get(userName);
         if(user != null){
             if (user.authLogin(userName, password)) {
@@ -41,7 +41,7 @@ public class Auth {
         }
     }
 
-    public void registerPrompts(String userName, String password) {
+    private void registerPrompts(String userName, String password) {
         if (usersList.get(userName) == null) {
             User newUser = new User(userName, password);
             usersList.put(userName, newUser);
