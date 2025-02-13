@@ -3,19 +3,14 @@ package org.vincent.menu;
 import org.vincent.entity.Task;
 import org.vincent.entity.User;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class TaskManagement {
     private final Scanner scanner = new Scanner(System.in);
     public HashMap<UUID, Task> tasksList = new HashMap<>();
-    private User currentUser;
 
     public void setUserSession(User user) {
         System.out.println("Welcome, " + user.getUsername());
-        this.currentUser = user;
     }
 
     public void taskManagementPrompt() {
@@ -37,7 +32,7 @@ public class TaskManagement {
                     viewTasks();
                     break;
                 case 3:
-                    markTaskAsDone();
+//                    markTaskAsDone();
                     break;
                 case 4:
                     deleteTask();
@@ -50,31 +45,46 @@ public class TaskManagement {
         }
     }
 
-    private void addTask(){
+    private void addTask() {
         System.out.print("Task name: ");
         String taskName = scanner.nextLine();
 
-        Task newTask = new Task(taskName);
-        tasksList.put(newTask.getTaskID(), newTask);
+        UUID taskId = UUID.randomUUID();
+        Task newTask = new Task(taskName, taskId);
+        tasksList.put(taskId, newTask);
 
         System.out.println("Task added: " + newTask.getTaskName() + "\n");
         viewTasks();
     }
 
-    public void markTaskAsDone(){
+    public void deleteTask() {
+        viewTasks();
+        if (tasksList.isEmpty()) {
+            return;
+        }
 
+        System.out.print("Select Task to delete (number): ");
+        int selectedIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        List<UUID> taskKeys = new ArrayList<>(tasksList.keySet());
+
+        if (selectedIndex > 0 && selectedIndex <= taskKeys.size()) {
+            UUID taskId = taskKeys.get(selectedIndex - 1);
+            tasksList.remove(taskId);
+            System.out.println("Task deleted successfully.");
+        } else {
+            System.out.println("Invalid task number. Try again.");
+        }
     }
 
-    public void deleteTask(){
-
-    }
-
-    public void viewTasks(){
+    public void viewTasks() {
         System.out.println("\nCurrent Tasks:");
-        if(!tasksList.isEmpty()) {
-            for (Map.Entry<UUID, Task> entry : tasksList.entrySet()) {
-                Task task = entry.getValue();
-                System.out.println("- " + task.getTaskName() + " | Done: " + (task.getIsDone() ? "Yes" : "No"));
+        if (!tasksList.isEmpty()) {
+            int index = 1;
+            for (Task task : tasksList.values()) {
+                System.out.println(index + ". " + task.getTaskName() + " | Done: " + (task.getIsDone() ? "Yes" : "No"));
+                index++;
             }
             System.out.println("\n");
         } else {
