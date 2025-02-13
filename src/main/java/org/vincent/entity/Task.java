@@ -7,14 +7,10 @@ public class Task {
     private final String taskName;
     private boolean isDone;
 
-    public Task(String taskName) {
-        this.taskID = UUID.randomUUID();
+    public Task(String taskName, UUID taskID) {
+        this.taskID = taskID;
         this.taskName = taskName;
         this.isDone = false;
-    }
-
-    public UUID getTaskID(){
-        return this.taskID;
     }
 
     public String getTaskName(){
