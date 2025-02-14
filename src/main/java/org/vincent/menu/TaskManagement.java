@@ -8,39 +8,32 @@ import java.util.*;
 public class TaskManagement {
     private final Scanner scanner = new Scanner(System.in);
     public HashMap<UUID, Task> tasksList = new HashMap<>();
-
+    private boolean isLoggedIn = true;
     public void setUserSession(User user) {
         System.out.println("Welcome, " + user.getUsername());
     }
 
     public void taskManagementPrompt() {
-        while (true) {
+        isLoggedIn = true;
+        while (isLoggedIn) {
             System.out.println("1. Add task");
             System.out.println("2. View tasks");
             System.out.println("3. Mark task as done");
             System.out.println("4. Delete task");
-            System.out.println("5. Exit");
+            System.out.println("5. Logout");
             System.out.println("Choose an option: ");
+
             int option = scanner.nextInt();
             scanner.nextLine();
             System.out.print("\033[H\033[2J");
+
             switch (option) {
-                case 1:
-                    addTask();
-                    break;
-                case 2:
-                    viewTasks();
-                    break;
-                case 3:
-                    markTaskAsDone();
-                    break;
-                case 4:
-                    deleteTask();
-                    break;
-                case 5:
-                    return;
-                default:
-                    System.out.println("Invalid option");
+                case 1 -> addTask();
+                case 2 -> viewTasks();
+                case 3 -> markTaskAsDone();
+                case 4 -> deleteTask();
+                case 5 -> logout();
+                default -> System.out.println("Invalid option");
             }
         }
     }
@@ -110,5 +103,10 @@ public class TaskManagement {
         } else {
             System.out.println("========= No tasks yet ==========\n");
         }
+    }
+
+    private void logout() {
+        System.out.println("Logging out...\n");
+        isLoggedIn = false; // Exit task management loop
     }
 }
